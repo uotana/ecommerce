@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
@@ -59,5 +60,15 @@ public class UserService {
 
     public Page<UserEntity> findAll(Pageable pageable) {
         return userRepository.findAll(pageable);
+    }
+
+    public String delete(Long id) {
+        Optional<UserEntity> userEntityOptional = userRepository.findById(id);
+        if(userEntityOptional.isPresent()){
+            userRepository.deleteById(id);
+            return "User deleted.";
+        }else{
+            throw new RuntimeException("User not found");
+        }
     }
 }

@@ -34,4 +34,9 @@ public class UserController {
                                          @RequestBody UserRequest request) {
         return ResponseEntity.status(HttpStatus.OK).body(service.update(id, request));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable(value = "id") Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.delete(id));
+    }
 }
