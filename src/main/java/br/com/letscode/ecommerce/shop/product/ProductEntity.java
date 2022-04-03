@@ -14,6 +14,7 @@ import java.util.UUID;
 @Entity(name = "PRODUCT")
 @Getter
 @Setter
+@EqualsAndHashCode
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ProductEntity {
