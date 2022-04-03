@@ -29,6 +29,11 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(service.findAll(pageable));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<UserEntity> getOne(@PathVariable(value = "id") Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(service.find(id));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<UserEntity> update(@PathVariable(value = "id") Long id,
                                          @RequestBody UserRequest request) {

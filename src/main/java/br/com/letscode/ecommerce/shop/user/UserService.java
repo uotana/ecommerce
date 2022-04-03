@@ -71,4 +71,13 @@ public class UserService {
             throw new RuntimeException("User not found");
         }
     }
+
+    public UserEntity find(Long id) {
+        Optional<UserEntity> userEntityOptional = userRepository.findById(id);
+        if(userEntityOptional.isPresent()){
+            return userRepository.findById(id).get();
+        }else{
+            throw new RuntimeException("User not found");
+        }
+    }
 }
