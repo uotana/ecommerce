@@ -7,10 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -23,6 +23,23 @@ public class UserService {
     public Object save(UserRequest request) {
         log.info("Saving request " + request);
         return userRepository.save(toEntity(request));
+    }
+
+    public UserEntity update(Long id, UserRequest request) {
+        Optional<UserEntity> userEntityOptional = userRepository.findById(id);
+        if(userEntityOptional.isPresent()){
+            log.info("Updating user with id " + id);
+            UserEntity user = new UserEntity();
+            user.setId(userEntityOptional.get().getId());
+            user.setCart(userEntityOptional.get().getCart());
+            user.setCreationDate(userEntityOptional.get().getCreationDate());
+            user.setName(request.getName());
+            user.setBirthDate(request.getBirthDate());
+            user.setUpdateDate(ZonedDateTime.now());
+            return userRepository.save(user);
+        }else {
+            throw new RuntimeException("Not found");
+        }
     }
 
     private UserEntity toEntity(UserRequest request) {

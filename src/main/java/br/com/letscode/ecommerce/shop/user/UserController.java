@@ -1,5 +1,6 @@
 package br.com.letscode.ecommerce.shop.user;
 
+import br.com.letscode.ecommerce.shop.product.ProductRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,5 +27,11 @@ public class UserController {
             @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable
     ){
         return ResponseEntity.status(HttpStatus.OK).body(service.findAll(pageable));
-    };
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserEntity> update(@PathVariable(value = "id") Long id,
+                                         @RequestBody UserRequest request) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.update(id, request));
+    }
 }
