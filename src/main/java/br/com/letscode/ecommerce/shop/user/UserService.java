@@ -26,8 +26,11 @@ public class UserService {
         UserEntity userEntity = new UserEntity();
         BeanUtils.copyProperties(request, userEntity);
 
-        CartEntity cart = cartRepository.save(new CartEntity());
-        userEntity.setCart(cart);
+        CartEntity cart = new CartEntity();
+        cart.setCreationDate(ZonedDateTime.now());
+        cart.setUpdateDate(ZonedDateTime.now());
+
+        userEntity.setCart(cartRepository.save(cart));
         userEntity.setCreationDate(ZonedDateTime.now());
         userEntity.setUpdateDate(ZonedDateTime.now());
 
