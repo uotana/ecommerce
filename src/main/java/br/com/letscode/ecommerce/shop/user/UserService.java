@@ -2,6 +2,8 @@ package br.com.letscode.ecommerce.shop.user;
 
 import br.com.letscode.ecommerce.shop.cart.CartEntity;
 import br.com.letscode.ecommerce.shop.cart.CartRepository;
+import br.com.letscode.ecommerce.shop.exception.CartNotFoundException;
+import br.com.letscode.ecommerce.shop.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -28,19 +30,16 @@ public class UserService {
 
     public UserEntity update(Long id, UserRequest request) {
         Optional<UserEntity> userEntityOptional = userRepository.findById(id);
-        if(userEntityOptional.isPresent()){
-            log.info("Updating user with id " + id);
-            UserEntity user = new UserEntity();
-            user.setId(userEntityOptional.get().getId());
-            user.setCart(userEntityOptional.get().getCart());
-            user.setCreationDate(userEntityOptional.get().getCreationDate());
-            user.setName(request.getName());
-            user.setBirthDate(request.getBirthDate());
-            user.setUpdateDate(ZonedDateTime.now());
-            return userRepository.save(user);
-        }else {
-            throw new RuntimeException("Not found");
-        }
+        userEntityOptional.orElseThrow(() -> new UserNotFoundException("User with id "+ id +" not found"));
+        log.info("Updating user with id " + id);
+        UserEntity user = new UserEntity();
+        user.setId(userEntityOptional.get().getId());
+        user.setCart(userEntityOptional.get().getCart());
+        user.setCreationDate(userEntityOptional.get().getCreationDate());
+        user.setName(request.getName());
+        user.setBirthDate(request.getBirthDate());
+        user.setUpdateDate(ZonedDateTime.now());
+        return userRepository.save(user);
     }
 
     private UserEntity toEntity(UserRequest request) {
@@ -64,20 +63,14 @@ public class UserService {
 
     public String delete(Long id) {
         Optional<UserEntity> userEntityOptional = userRepository.findById(id);
-        if(userEntityOptional.isPresent()){
-            userRepository.deleteById(id);
-            return "User deleted.";
-        }else{
-            throw new RuntimeException("User not found");
-        }
+        userEntityOptional.orElseThrow(() -> new UserNotFoundException("User with id "+ id +" not found"));
+        userRepository.deleteById(id);
+        return "User deleted.";
     }
 
     public UserEntity find(Long id) {
         Optional<UserEntity> userEntityOptional = userRepository.findById(id);
-        if(userEntityOptional.isPresent()){
-            return userRepository.findById(id).get();
-        }else{
-            throw new RuntimeException("User not found");
-        }
+        userEntityOptional.orElseThrow(() -> new UserNotFoundException("User with id "+ id +" not found"));
+        return userRepository.findById(id).get();
     }
 }
