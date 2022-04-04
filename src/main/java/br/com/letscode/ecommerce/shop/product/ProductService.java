@@ -1,5 +1,6 @@
 package br.com.letscode.ecommerce.shop.product;
 
+import br.com.letscode.ecommerce.shop.exception.ProductNotFoundException;
 import br.com.letscode.ecommerce.shop.manufacturer.ManufacturerEntity;
 import br.com.letscode.ecommerce.shop.manufacturer.ManufacturerRepository;
 import br.com.letscode.ecommerce.utils.ProductStatus;
@@ -7,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
@@ -38,38 +40,21 @@ public class ProductService {
         Optional<ProductEntity> productEntityOptional = productRepository.findById(id);
         Optional<ManufacturerEntity> manufacturerEntityOptional = manufacturerRepository.findById(product.getIdManufacturer());
 
-       if (productEntityOptional.isPresent() && manufacturerEntityOptional.isPresent()){
+        if (productEntityOptional.isPresent() && manufacturerEntityOptional.isPresent()) {
 
-           ProductEntity productEntity = new ProductEntity();
-           BeanUtils.copyProperties(product, productEntity);
+            ProductEntity productEntity = new ProductEntity();
+            BeanUtils.copyProperties(product, productEntity);
 //           productEntity.setCode(productEntityOptional.get().getCode());
-           productEntity.setId(productEntityOptional.get().getId());
-           productEntity.setCode(productEntityOptional.get().getCode());
-           productEntity.setStatus(productEntityOptional.get().getStatus());
-           productEntity.setManufacturer(manufacturerEntityOptional.get());
-           productEntity.setUpdateDate(ZonedDateTime.now());
-           return productRepository.save(productEntity);
+            productEntity.setId(productEntityOptional.get().getId());
+            productEntity.setCode(productEntityOptional.get().getCode());
+            productEntity.setStatus(productEntityOptional.get().getStatus());
+            productEntity.setManufacturer(manufacturerEntityOptional.get());
+            productEntity.setUpdateDate(ZonedDateTime.now());
+            return productRepository.save(productEntity);
 
-       } else {
-           throw new RuntimeException("Not found");
-       }
-      /*  if (productRepository.existsById(id)) {
-            Optional<ManufacturerEntity> manufacturer = manufacturerRepository.findById(product.getIdManufacturer());
-            if (manufacturer.isPresent()) {
-
-                ProductEntity productEntity = productRepository.getById(id);
-                BeanUtils.copyProperties(product, productEntity);
-                productEntity.setCode();
-                productEntity.setManufacturer(manufacturer.get());
-                productEntity.setUpdateDate(ZonedDateTime.now());
-                return productEntity;
-
-            } else {
-                throw new NoSuchElementException("Manufacturer not found.");
-            }
         } else {
-            throw new NoSuchElementException("Product not found.");
-        }*/
+            throw new RuntimeException("Not found");
+        }
     }
 
     private ProductEntity toEntity(ProductRequest product, ManufacturerEntity manufacturer) {
@@ -88,5 +73,15 @@ public class ProductService {
 
     public Page<ProductEntity> findAll(Pageable pageable) {
         return productRepository.findAll(pageable);
+    }
+
+    public String delete(Long id) {
+        Optional<ProductEntity> productEntityOptional = productRepository.findById(id);
+        ProductEntity productEntity = productEntityOptional.orElseThrow(() -> new ProductNotFoundException("Product with id " + id + " not found"));
+
+        productRepository.delete(productEntity);
+
+        return "Product successfully deleted.";
+
     }
 }
