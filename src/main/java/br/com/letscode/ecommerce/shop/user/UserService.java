@@ -2,14 +2,12 @@ package br.com.letscode.ecommerce.shop.user;
 
 import br.com.letscode.ecommerce.shop.cart.CartEntity;
 import br.com.letscode.ecommerce.shop.cart.CartRepository;
-import br.com.letscode.ecommerce.shop.exception.CartNotFoundException;
 import br.com.letscode.ecommerce.shop.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
@@ -65,6 +63,7 @@ public class UserService {
         Optional<UserEntity> userEntityOptional = userRepository.findById(id);
         userEntityOptional.orElseThrow(() -> new UserNotFoundException("User with id "+ id +" not found"));
         userRepository.deleteById(id);
+        cartRepository.deleteById(userEntityOptional.get().getCart().getId());
         return "User deleted.";
     }
 
