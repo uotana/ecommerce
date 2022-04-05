@@ -68,8 +68,6 @@ public class UserService {
     }
 
     public UserEntity find(Long id) {
-        Optional<UserEntity> userEntityOptional = userRepository.findById(id);
-        userEntityOptional.orElseThrow(() -> new UserNotFoundException("User with id "+ id +" not found"));
-        return userRepository.findById(id).get();
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User with id "+ id +" not found"));
     }
 }
