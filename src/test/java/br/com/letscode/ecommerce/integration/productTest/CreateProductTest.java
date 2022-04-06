@@ -70,6 +70,5 @@ public class CreateProductTest {
         Assert.notNull(productEntity.getBarCode(), "Bar code null");
         Assert.notNull(productEntity.getManufacturer(), "Manufacturer null");
 
-
     }
 }

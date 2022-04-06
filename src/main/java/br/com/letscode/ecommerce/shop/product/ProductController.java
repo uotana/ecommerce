@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/product")
+@RequestMapping("v1/products")
 public class ProductController {
 
     private ProductService service;

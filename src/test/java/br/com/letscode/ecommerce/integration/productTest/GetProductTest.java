@@ -11,8 +11,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.Assert;
 
 import javax.persistence.EntityManager;
@@ -21,20 +25,14 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 @AutoConfigureTestDatabase
-//@AutoConfigureMockMvc
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Slf4j
+@AutoConfigureMockMvc
 public class GetProductTest {
 
-/*    @MockBean
-    private ManufacturerRepository manufacturerRepository;
-
-    @MockBean
-    private ProductRepository productRepository;
-
     @Autowired
-    private MockMvc mockMvc;*/
+    private MockMvc mockMvc;
 
     @Autowired
     private ProductRepository productRepository;
@@ -55,7 +53,7 @@ public class GetProductTest {
     }
 
     @Test
-    void onGetAllProductsFromRepository() {
+    void onGetAllProductsFromRepository() throws Exception {
         var manufacturerEntity = new ManufacturerEntity();
         manufacturerEntity.setName("Manufacturer X");
         manufacturerEntity.setCreationDate(ZonedDateTime.now());
@@ -74,8 +72,12 @@ public class GetProductTest {
 
         List response = productRepository.findAll();
 
-        Assert.isTrue(response.size() == 1,
-                "Expected size: 1, Result:" + response.size());
+        Page<ProductEntity> result = productRepository.findAll(PageRequest.of(0, 1));
+
+        Assert.isTrue(!result.isEmpty(), "Expected size: 1, Result:" + result.getSize());
+
+
     }
 
 }
+
