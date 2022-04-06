@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -25,5 +26,5 @@ public class CartEntity {
 
     @OneToMany
     @JoinColumn(name="PRODUCT")
-    private List<ProductEntity> products;
+    private List<ProductEntity> products = new ArrayList<>();
 }
