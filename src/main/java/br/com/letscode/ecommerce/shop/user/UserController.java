@@ -1,6 +1,5 @@
 package br.com.letscode.ecommerce.shop.user;
 
-import br.com.letscode.ecommerce.shop.product.ProductRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,31 +11,33 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/users")
+@RequestMapping("v1/users")
 public class UserController {
 
     private final UserService service;
 
     @PostMapping
-    public ResponseEntity<Object> save(@RequestBody UserRequest request){
+    public ResponseEntity<Object> save(@RequestBody UserRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(request));
     }
 
     @GetMapping
     public ResponseEntity<Page<UserEntity>> getAll(
-            @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable
-    ){
-        return ResponseEntity.status(HttpStatus.OK).body(service.findAll(pageable));
+            @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable,
+            @RequestParam(value = "name", required = false) String name
+    ) {
+        UserFilter filter = new UserFilter(name);
+        return ResponseEntity.status(HttpStatus.OK).body(service.findAll(filter, pageable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserEntity> getOne(@PathVariable(value = "id") Long id){
+    public ResponseEntity<UserEntity> getOne(@PathVariable(value = "id") Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(service.find(id));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<UserEntity> update(@PathVariable(value = "id") Long id,
-                                         @RequestBody UserRequest request) {
+                                             @RequestBody UserRequest request) {
         return ResponseEntity.status(HttpStatus.OK).body(service.update(id, request));
     }
 
