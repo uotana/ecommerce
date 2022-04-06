@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
@@ -28,7 +29,7 @@ public class UserService {
 
     public UserEntity update(Long id, UserRequest request) {
         Optional<UserEntity> userEntityOptional = userRepository.findById(id);
-        userEntityOptional.orElseThrow(() -> new UserNotFoundException("User with id "+ id +" not found"));
+        userEntityOptional.orElseThrow(() -> new UserNotFoundException("User with id " + id + " not found"));
         log.info("Updating user with id " + id);
         UserEntity user = new UserEntity();
         user.setId(userEntityOptional.get().getId());
@@ -55,19 +56,21 @@ public class UserService {
         return userEntity;
     }
 
-    public Page<UserEntity> findAll(Pageable pageable) {
-        return userRepository.findAll(pageable);
+    public Page<UserEntity> findAll(UserFilter filter, Pageable pageable) {
+        return userRepository.findAll(
+                Specification.where(UserSpecification.nameLike(filter.getName()))
+                , pageable);
     }
 
     public String delete(Long id) {
         Optional<UserEntity> userEntityOptional = userRepository.findById(id);
-        userEntityOptional.orElseThrow(() -> new UserNotFoundException("User with id "+ id +" not found"));
+        userEntityOptional.orElseThrow(() -> new UserNotFoundException("User with id " + id + " not found"));
         userRepository.deleteById(id);
         cartRepository.deleteById(userEntityOptional.get().getCart().getId());
         return "User deleted.";
     }
 
     public UserEntity find(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User with id "+ id +" not found"));
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User with id " + id + " not found"));
     }
 }
