@@ -9,9 +9,10 @@ import java.time.ZonedDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class ManufacturerEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
 //    @SequenceGenerator(name = "fabricante_seq", sequenceName = "fabricante_seq")
 //    @Setter(value = AccessLevel.NONE)
     private Long id;

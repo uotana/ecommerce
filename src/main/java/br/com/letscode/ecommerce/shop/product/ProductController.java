@@ -10,6 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
+import java.math.BigDecimal;
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("/product")
@@ -24,8 +27,18 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<Page<ProductEntity>> getAll(
-            @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.findAll(pageable));
+            @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable,
+            @RequestParam(name = "name", required = false) String name,
+//            @RequestParam(name = "category", required = false) String category,
+            @RequestParam(name = "minvalue", required = false) BigDecimal minValue,
+            @RequestParam(name = "maxvalue", required = false) BigDecimal maxValue) {
+
+        ProductFilter filter = new ProductFilter();
+        filter.setName(name);
+        filter.setMaxValue(minValue);
+        filter.setMinValue(maxValue);
+
+        return ResponseEntity.status(HttpStatus.OK).body(service.findAll(filter, pageable));
     }
 
     @PutMapping("/{id}")
@@ -36,7 +49,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<Object> delete(@PathVariable(value = "id") Long id){
+    ResponseEntity<Object> delete(@PathVariable(value = "id") Long id) {
 
         return ResponseEntity.ok(service.delete(id));
     }

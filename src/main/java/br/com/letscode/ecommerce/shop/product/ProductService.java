@@ -4,27 +4,29 @@ import br.com.letscode.ecommerce.shop.exception.ProductNotFoundException;
 import br.com.letscode.ecommerce.shop.manufacturer.ManufacturerEntity;
 import br.com.letscode.ecommerce.shop.manufacturer.ManufacturerRepository;
 import br.com.letscode.ecommerce.utils.ProductStatus;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import java.time.ZonedDateTime;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class ProductService {
 
     private final ProductRepository productRepository;
     private final ManufacturerRepository manufacturerRepository;
+    private final EntityManager entityManager;
 
 
-    public Object save(ProductRequest product) {
+    public ProductEntity save(ProductRequest product) {
 
         Optional<ManufacturerEntity> manufacturer = manufacturerRepository.findById(product.getIdManufacturer());
         if (manufacturer.isPresent()) {
@@ -71,8 +73,14 @@ public class ProductService {
 
     }
 
-    public Page<ProductEntity> findAll(Pageable pageable) {
-        return productRepository.findAll(pageable);
+    public Page<ProductEntity> findAll(ProductFilter filter,
+                                       Pageable pageable
+    ) {
+        return productRepository.findAll(
+                Specification.where(ProductSpecification.nameLike(filter.getName()))
+                        .and(ProductSpecification.valueGreaterThanOrEqualTo(filter.getMaxValue()))
+                        .and(ProductSpecification.valueLessThanOrEqualTo(filter.getMinValue())), pageable
+        );
     }
 
     public String delete(Long id) {

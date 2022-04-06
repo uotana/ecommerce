@@ -19,19 +19,25 @@ public class CartService {
     private final ProductRepository productRepository;
 
     public CartEntity addProduct(Long cartId, Long productId) {
+
         Optional<CartEntity> cartEntityOptional = cartRepository.findById(cartId);
-        CartEntity cartEntity = cartEntityOptional.orElseThrow(() -> new CartNotFoundException("Cart with id "+ cartId +" not found"));
+        CartEntity cartEntity = cartEntityOptional.orElseThrow(() -> new CartNotFoundException(
+                "Cart with id " + cartId + " not found"));
         Optional<ProductEntity> productEntityOptional = productRepository.findById(productId);
-        ProductEntity productEntity = productEntityOptional.orElseThrow(() -> new ProductNotFoundException("Product with id "+ productId +" not found"));
+        ProductEntity productEntity = productEntityOptional.orElseThrow(() -> new ProductNotFoundException(
+                "Product with id " + productId + " not found"));
         cartEntity.getProducts().add(productEntity);
         return cartRepository.save(cartEntity);
     }
 
     public CartEntity deleteProduct(Long cartId, Long productId) {
+
         Optional<CartEntity> cartEntityOptional = cartRepository.findById(cartId);
-        CartEntity cartEntity = cartEntityOptional.orElseThrow(() -> new CartNotFoundException("Cart with id "+ cartId +" not found"));
+        CartEntity cartEntity = cartEntityOptional.orElseThrow(() -> new CartNotFoundException(
+                "Cart with id " + cartId + " not found"));
         Optional<ProductEntity> productEntityOptional = productRepository.findById(productId);
-        productEntityOptional.orElseThrow(() -> new ProductNotFoundException("Product with id "+ productId +" not found"));
+        productEntityOptional.orElseThrow(() -> new ProductNotFoundException(
+                "Product with id " + productId + " not found"));
         cartEntity.getProducts().remove(productEntityOptional.get());
         return cartRepository.save(cartEntity);
     }

@@ -1,10 +1,6 @@
 
 9
 	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
-7
-pom.xml,4/4/442292b8a7efeabbe4cc176709b833b1792140ec
-Å
-Qsrc/main/java/br/com/letscode/ecommerce/shop/exception/CartNotFoundException.java,e/3/e353161f5eb8b4f74fd6c41d6f0dbd13158b62ec
 q
 Asrc/main/java/br/com/letscode/ecommerce/shop/user/UserEntity.java,d/c/dc50741453860d241d32853964f015b1faae2a24
 r
@@ -13,11 +9,3 @@ p
 @src/main/java/br/com/letscode/ecommerce/utils/ProductStatus.java,5/7/57711bd0ac58f149d8b3123811bb1e104d41ca75
 r
 Bsrc/main/java/br/com/letscode/ecommerce/shop/user/UserService.java,f/c/fc46eb53c55003a14f8ffd8a5b09008ae94489e2
-u
-Esrc/main/java/br/com/letscode/ecommerce/shop/cart/CartController.java,b/8/b8efc79b8f984930fd8c49cfaad96fea7cfeaef8
-r
-Bsrc/main/java/br/com/letscode/ecommerce/shop/cart/CartService.java,a/d/ad41542fb52f6925728d01336c63bba46423abfe
-x
-Hsrc/main/java/br/com/letscode/ecommerce/shop/product/ProductRequest.java,d/2/d2ffe3173fe6cde481bd060be301664da8a5c853
-Ö
-Usrc/main/java/br/com/letscode/ecommerce/shop/manufacturer/ManufacturerController.java,9/e/9e8736c4837ceda27ee33afcf1fb746cf2cf0de4
