@@ -16,7 +16,7 @@ public class CartEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long cartId;
 
     @Column(name = "CREATION_DATE")
     private ZonedDateTime creationDate;
@@ -25,6 +25,6 @@ public class CartEntity {
     private ZonedDateTime updateDate;
 
     @OneToMany
-    @JoinColumn(name="CART_ITEM_ID")
-    private List<CartItemEntity> products = new ArrayList<>();
+    @JoinColumn(name="CART_ID")
+    private List<CartItemEntity> items = new ArrayList<>();
 }
