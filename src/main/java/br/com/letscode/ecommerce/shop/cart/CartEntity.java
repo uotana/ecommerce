@@ -1,6 +1,6 @@
 package br.com.letscode.ecommerce.shop.cart;
 
-import br.com.letscode.ecommerce.shop.product.ProductEntity;
+import br.com.letscode.ecommerce.shop.cartitem.CartItemEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,6 +25,6 @@ public class CartEntity {
     private ZonedDateTime updateDate;
 
     @OneToMany
-    @JoinColumn(name="PRODUCT")
-    private List<ProductEntity> products = new ArrayList<>();
+    @JoinColumn(name="CART_ITEM_ID")
+    private List<CartItemEntity> products = new ArrayList<>();
 }
