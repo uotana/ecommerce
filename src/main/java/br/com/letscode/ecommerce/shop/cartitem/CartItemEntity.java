@@ -1,6 +1,5 @@
 package br.com.letscode.ecommerce.shop.cartitem;
 
-import br.com.letscode.ecommerce.shop.cart.CartEntity;
 import br.com.letscode.ecommerce.shop.product.ProductEntity;
 import lombok.Data;
 
@@ -12,11 +11,11 @@ import java.time.ZonedDateTime;
 public class CartItemEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long itemId;
 
 //    @OneToOne
-    @JoinColumn(name="CART_ID")
-    private Long cartId;
+//    @JoinColumn(name="CART_ID")
+//    private Long cartId;
 
     @OneToOne
     @JoinColumn(name="PRODUCT_ID")
