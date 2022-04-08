@@ -66,7 +66,7 @@ public class UserService {
         Optional<UserEntity> userEntityOptional = userRepository.findById(id);
         userEntityOptional.orElseThrow(() -> new UserNotFoundException("User with id " + id + " not found"));
         userRepository.deleteById(id);
-        cartRepository.deleteById(userEntityOptional.get().getCart().getId());
+        cartRepository.deleteById(userEntityOptional.get().getCart().getCartId());
         return "User deleted.";
     }
 
