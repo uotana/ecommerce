@@ -35,22 +35,30 @@ public class CartService {
 
         CartItemEntity cartItemEntity = new CartItemEntity();
         cartItemEntity.setProduct(productEntity);
-        cartItemEntity.setCartId(cartId);
-        cartItemEntity.setCreationDate(ZonedDateTime.now());
-        cartItemEntity.setUpdateDate(ZonedDateTime.now());
+//        cartItemEntity.setCartId(cartId);
+        List<CartItemEntity> items = cartEntity.getItems();
 
-        List<CartItemEntity> items = cartEntity.getProducts();
-
-        for(CartItemEntity item : items){
-            if(item.getProduct().getId().equals(productId)){
-                cartItemEntity.setId(item.getId());
-                cartItemEntity.setQuantity(item.getQuantity() + 1);
-            }else{
-                cartItemEntity.setQuantity(1);
+        if(!items.isEmpty()){
+            for(CartItemEntity item : items){
+                if(item.getProduct().getId().equals(productId)){
+                    log.info("A similar product is already in the cart");
+                    cartItemEntity.setQuantity(item.getQuantity() + 1);
+                    cartItemEntity.setCreationDate(item.getCreationDate());
+                    cartItemEntity.setItemId(item.getItemId());
+                    log.info("Now the cart has "+ cartItemEntity.getQuantity()+" of this product");
+                }else{
+                    cartItemEntity.setQuantity(1);
+                    log.info("First of this product added to cart");
+                }
             }
+        }else{
+            cartItemEntity.setCreationDate(ZonedDateTime.now());
+            cartItemEntity.setQuantity(1);
+            log.info("First of this product added to cart");
         }
-        cartEntity.getProducts().add(cartItemRepository.save(cartItemEntity));
 
+        cartItemEntity.setUpdateDate(ZonedDateTime.now());
+        cartEntity.getItems().add(cartItemRepository.save(cartItemEntity));
         return cartRepository.save(cartEntity);
     }
 
@@ -62,7 +70,7 @@ public class CartService {
         Optional<ProductEntity> productEntityOptional = productRepository.findById(productId);
         productEntityOptional.orElseThrow(() -> new ProductNotFoundException(
                 "Product with id " + productId + " not found"));
-        cartEntity.getProducts().remove(productEntityOptional.get());
+        cartEntity.getItems().remove(productEntityOptional.get());
         return cartRepository.save(cartEntity);
     }
 }
