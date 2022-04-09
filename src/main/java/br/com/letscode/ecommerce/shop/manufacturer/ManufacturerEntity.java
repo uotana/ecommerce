@@ -20,7 +20,7 @@ public class ManufacturerEntity {
     @Column(name = "NAME")
     private String name;
 
-    @Column(name = "CEATION_DATE")
+    @Column(name = "CREATION_DATE")
     private ZonedDateTime creationDate;
 
     @Column(name = "UPDATE_DATE")
