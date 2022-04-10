@@ -1,6 +1,7 @@
 package br.com.letscode.ecommerce.shop.auth;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,12 +17,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
+@AllArgsConstructor
 public class AuthFilter extends OncePerRequestFilter {
 
-    @Autowired
+//    @Autowired
     private TokenUtil tokenUtil;
 
-    @Autowired
+//    @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
     @Override

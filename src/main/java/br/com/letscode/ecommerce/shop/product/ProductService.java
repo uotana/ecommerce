@@ -38,13 +38,6 @@ public class ProductService {
         ProductEntity productEntity = toEntity(product, manufacturer);
         return productRepository.save(productEntity);
 
-
-/*        if (manufacturer.isPresent()) {
-            ProductEntity productEntity = toEntity(product, manufacturer.get());
-            return productRepository.save(productEntity);
-        } else {
-            throw new NoSuchElementException("Manufacturer not found.");
-        }*/
     }
 
     public ProductEntity update(Long productId, ProductRequest productRequest) {

@@ -12,10 +12,9 @@ public class CartController {
 
     private final CartService service;
 
-    @PostMapping("/{cart-id}/{product-id}")
-    public ResponseEntity<CartEntity> addProduct(@PathVariable(value = "cart-id") Long cartId,
-                                                 @PathVariable(value = "product-id") Long productId){
-        return ResponseEntity.status(HttpStatus.OK).body(service.addProduct(cartId, productId));
+    @PostMapping
+    public ResponseEntity<CartEntity> addProduct(@RequestBody CartRequest cartRequest){
+        return ResponseEntity.status(HttpStatus.OK).body(service.addProduct(cartRequest));
     }
 
     @DeleteMapping("/{cart-id}/{product-id}")
@@ -23,4 +22,5 @@ public class CartController {
                                          @PathVariable(value = "product-id") Long productId) {
         return ResponseEntity.status(HttpStatus.OK).body(service.deleteProduct(cartId, productId));
     }
+
 }

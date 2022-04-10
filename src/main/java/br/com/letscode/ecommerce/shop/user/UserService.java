@@ -2,7 +2,9 @@ package br.com.letscode.ecommerce.shop.user;
 
 import br.com.letscode.ecommerce.shop.cart.CartEntity;
 import br.com.letscode.ecommerce.shop.cart.CartRepository;
+import br.com.letscode.ecommerce.shop.exception.ProductNotFoundException;
 import br.com.letscode.ecommerce.shop.exception.UserNotFoundException;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -16,13 +18,18 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
+@AllArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
     private final CartRepository cartRepository;
 
     public Object save(UserRequest request) {
+        Optional<UserEntity> user = userRepository.findByUsername(request.getUsername());
+        if(user.isPresent()){
+            throw new ProductNotFoundException( "username "+ user.get().getUsername()+ " already exists, try another one.");
+        }
         log.info("Saving request " + request);
         return userRepository.save(toEntity(request));
     }

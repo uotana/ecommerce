@@ -1,5 +1,6 @@
 package br.com.letscode.ecommerce.shop.auth;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,21 +12,23 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@AllArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
+//    @Autowired
     private AuthEntryPoint authEntryPoint;
 
-    @Autowired
+//    @Autowired
     private AuthFilter authFilter;
 
-    @Autowired
+//    @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
     @Bean
@@ -38,7 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/auth", "/auth/")
+                .antMatchers("/v1/auth", "/v1/auth/", "/v1/users/create")
                 .permitAll()
                 .anyRequest().authenticated().and()
                 .exceptionHandling().authenticationEntryPoint(authEntryPoint)

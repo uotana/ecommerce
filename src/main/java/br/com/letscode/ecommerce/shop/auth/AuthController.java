@@ -1,5 +1,7 @@
 package br.com.letscode.ecommerce.shop.auth;
 
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,17 +14,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/auth")
+@RequestMapping("v1/auth")
 @RestController
+//@RequiredArgsConstructor
+@AllArgsConstructor
 public class AuthController {
 
-    @Autowired
+//    @Autowired
     private AuthenticationManager authenticationManager;
 
-    @Autowired
+//    @Autowired
     private UserDetailsServiceImpl userDetailsServiceImpl;
 
-    @Autowired
+//    @Autowired
     private TokenUtil tokenUtil;
 
     @PostMapping
@@ -45,7 +49,8 @@ public class AuthController {
                 .loadUserByUsername(request.getUsername());
 
         final String token = tokenUtil.generateToken(userDetails);
-        return ResponseEntity.ok(
-                AuthResponse.builder().token(token).build());
+        return ResponseEntity.ok(AuthResponse.builder()
+                .token(token)
+                .build());
     }
 }

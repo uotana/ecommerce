@@ -4,7 +4,9 @@ import br.com.letscode.ecommerce.shop.auth.ProfileEntity;
 import br.com.letscode.ecommerce.shop.cart.CartEntity;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -16,13 +18,19 @@ import java.util.Set;
 
 @Entity(name = "CLIENT")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class UserEntity implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "USERNAME")
     private String username;
+
+    @Column(name = "PASSWORD")
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)

@@ -2,6 +2,7 @@ package br.com.letscode.ecommerce.shop.auth;
 
 import br.com.letscode.ecommerce.shop.user.UserEntity;
 import br.com.letscode.ecommerce.shop.user.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,8 +13,9 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
 @Service
+@AllArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
-    @Autowired
+//    @Autowired
     private UserRepository repository;
 
     @Override
@@ -21,7 +23,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         UserEntity userEntity = repository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Username "+ username + " not found."));
 
-        return new User(username, userEntity.getPassword(), new ArrayList<>());
+        return new User(username, userEntity.getPassword(),
+                new ArrayList<>());
 //        return repository.findByUsername(username)
 //                .orElseThrow(() -> new UsernameNotFoundException("Username "+ username + " not found."));
     }
