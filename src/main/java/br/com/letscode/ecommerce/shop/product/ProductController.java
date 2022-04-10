@@ -10,12 +10,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("v1/products")
+@RequestMapping("/v1/products")
 public class ProductController {
 
     private ProductService service;
@@ -42,9 +41,9 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> update(@PathVariable(value = "id") Long id,
-                                         @RequestBody ProductRequest product) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.save(id, product));
+    public ResponseEntity<ProductEntity> update(@PathVariable(value = "id") Long id,
+                                                @RequestBody ProductRequest product) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.update(id, product));
 
     }
 

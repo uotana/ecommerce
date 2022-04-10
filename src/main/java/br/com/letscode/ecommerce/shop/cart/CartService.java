@@ -27,7 +27,7 @@ public class CartService {
         log.info("Adding product with id " + productId + " to cart with id " + cartId);
         Optional<CartEntity> cartEntityOptional = cartRepository.findById(cartId);
         CartEntity cartEntity = cartEntityOptional.orElseThrow(() -> new CartNotFoundException(
-                "Cart with id " + cartId + " not found"));
+                "Cart with id " + cartId + " not found."));
 
         Optional<ProductEntity> productEntityOptional = productRepository.findById(productId);
         ProductEntity productEntity = productEntityOptional.orElseThrow(() -> new ProductNotFoundException(

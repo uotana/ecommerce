@@ -31,4 +31,12 @@ public class EcommerceExceptionHandler {
                 System.currentTimeMillis());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
+
+    @ExceptionHandler
+    public ResponseEntity<DefaultError> manufacturerNotFound(ManufacturerNotFoundException exception){
+        DefaultError error = new DefaultError(HttpStatus.BAD_REQUEST.value(),
+                exception.getMessage(),
+                System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
 }

@@ -10,6 +10,7 @@ import java.time.ZonedDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class ManufacturerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
