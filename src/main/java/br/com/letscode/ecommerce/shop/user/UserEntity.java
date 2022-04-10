@@ -1,22 +1,32 @@
 package br.com.letscode.ecommerce.shop.user;
 
+import br.com.letscode.ecommerce.shop.auth.ProfileEntity;
 import br.com.letscode.ecommerce.shop.cart.CartEntity;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.Collection;
+import java.util.Set;
 
 @Entity(name = "CLIENT")
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class UserEntity {
+public class UserEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String username;
+    private String password;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<ProfileEntity> profile;
 
     @Column(name = "NAME")
     private String name;
@@ -33,4 +43,39 @@ public class UserEntity {
 
     @Column(name = "UPDATE_DATE")
     private ZonedDateTime updateDate;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.profile;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
