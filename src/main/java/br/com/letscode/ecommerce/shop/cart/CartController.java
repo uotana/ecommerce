@@ -17,10 +17,9 @@ public class CartController {
         return ResponseEntity.status(HttpStatus.OK).body(service.addProduct(cartRequest));
     }
 
-    @DeleteMapping("/{cart-id}/{product-id}")
-    public ResponseEntity<CartEntity> deleteProduct(@PathVariable(value = "cart-id") Long cartId,
-                                         @PathVariable(value = "product-id") Long productId) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.deleteProduct(cartId, productId));
+    @DeleteMapping
+    public ResponseEntity<CartEntity> deleteProduct(@RequestBody CartRequest cartRequest) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.deleteProduct(cartRequest));
     }
 
 }
