@@ -35,23 +35,18 @@ public class CartService {
 
         CartItemEntity cartItemEntity = new CartItemEntity();
         cartItemEntity.setProduct(productEntity);
-//        cartItemEntity.setCartId(cartId);
         List<CartItemEntity> items = cartEntity.getItems();
 
         if (!items.isEmpty()) {
             for (CartItemEntity item : items) {
                 if (item.getProduct().getId().equals(cartRequest.getProductId())) {
-
                     log.info("A similar product is already in the cart");
                     cartItemEntity.setQuantity(item.getQuantity() + 1);
                     cartItemEntity.setCreationDate(item.getCreationDate());
                     cartItemEntity.setItemId(item.getItemId());
-
                     cartEntity.getItems().remove(item);
-
                     log.info("Now the cart has " + cartItemEntity.getQuantity() + " of this product");
                     break;
-
                 } else {
                     cartItemEntity.setQuantity(1);
                     log.info("First of this product added to cart");
@@ -62,26 +57,44 @@ public class CartService {
             cartItemEntity.setQuantity(1);
             log.info("First of this product added to cart");
         }
-
         cartItemEntity.setUpdateDate(ZonedDateTime.now());
-
         cartEntity.getItems().add(cartItemRepository.save(cartItemEntity));
-//        return cartRepository.save(cartEntity);
-
-        cartRepository.save(cartEntity);
-        log.info(cartEntity.toString());
-        return cartEntity;
+        return cartRepository.save(cartEntity);
     }
 
     public CartEntity deleteProduct(Long cartId, Long productId) {
+        log.info("Removing product with id " + productId + " from cart with id " + cartId);
 
-        Optional<CartEntity> cartEntityOptional = cartRepository.findById(cartId);
-        CartEntity cartEntity = cartEntityOptional.orElseThrow(() -> new CartNotFoundException(
-                "Cart with id " + cartId + " not found"));
-        Optional<ProductEntity> productEntityOptional = productRepository.findById(productId);
-        productEntityOptional.orElseThrow(() -> new ProductNotFoundException(
+        CartEntity cartEntity = cartRepository.findById(cartId)
+                .orElseThrow(() -> new CartNotFoundException("Cart with id " + cartId + " not found"));
+
+        productRepository.findById(productId).orElseThrow(() -> new ProductNotFoundException(
                 "Product with id " + productId + " not found"));
-        cartEntity.getItems().remove(productEntityOptional.get());
+
+        List<CartItemEntity> items = cartEntity.getItems();
+
+        if (items.isEmpty()) {
+            throw new ProductNotFoundException("Product with id " + productId + " not found");
+        }
+        CartItemEntity cartItemEntity = new CartItemEntity();
+        for (CartItemEntity item : items) {
+            if (item.getProduct().getId().equals(productId)) {
+                log.info("Product found in the cart");
+                if (item.getQuantity().equals(1)) {
+                    cartItemRepository.deleteById(item.getItemId());
+                    cartEntity.getItems().remove(item);
+                    return cartRepository.save(cartEntity);
+                }
+                cartItemEntity.setItemId(item.getItemId());
+                cartItemEntity.setProduct(item.getProduct());
+                cartItemEntity.setQuantity(item.getQuantity() - 1);
+                cartItemEntity.setCreationDate(item.getCreationDate());
+                cartItemEntity.setUpdateDate(ZonedDateTime.now());
+                cartEntity.getItems().remove(item);
+                cartEntity.getItems().add(cartItemRepository.save(cartItemEntity));
+                log.info("Now the cart has " + cartItemEntity.getQuantity() + " of this product");
+            }
+        }
         return cartRepository.save(cartEntity);
     }
 }
