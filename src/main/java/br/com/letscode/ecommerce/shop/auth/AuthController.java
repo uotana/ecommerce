@@ -1,8 +1,7 @@
 package br.com.letscode.ecommerce.shop.auth;
 
+import br.com.letscode.ecommerce.shop.auth.utils.TokenUtil;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -16,32 +15,27 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("v1/auth")
 @RestController
-//@RequiredArgsConstructor
 @AllArgsConstructor
 public class AuthController {
 
-//    @Autowired
     private AuthenticationManager authenticationManager;
-
-//    @Autowired
     private UserDetailsServiceImpl userDetailsServiceImpl;
 
-//    @Autowired
     private TokenUtil tokenUtil;
 
     @PostMapping
     public ResponseEntity<AuthResponse> login(
             @RequestBody AuthRequest request
-    )throws Exception {
+    ) throws Exception {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             request.getUsername(),
                             request.getPassword()
                     ));
-        }catch (DisabledException e){
+        } catch (DisabledException e) {
             throw new Exception("Disabled user", e);
-        } catch (BadCredentialsException e){
+        } catch (BadCredentialsException e) {
             throw new Exception("Invalid credentials", e);
         }
 

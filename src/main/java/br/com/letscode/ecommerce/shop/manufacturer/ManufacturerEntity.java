@@ -14,8 +14,6 @@ import java.time.ZonedDateTime;
 public class ManufacturerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-//    @SequenceGenerator(name = "fabricante_seq", sequenceName = "fabricante_seq")
-//    @Setter(value = AccessLevel.NONE)
     private Long id;
 
     @Column(name = "NAME")

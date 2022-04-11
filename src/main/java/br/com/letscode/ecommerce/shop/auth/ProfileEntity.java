@@ -13,7 +13,7 @@ import javax.persistence.Id;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name="PROFILE")
+@Entity(name = "PROFILE")
 public class ProfileEntity implements GrantedAuthority {
 
     @Id

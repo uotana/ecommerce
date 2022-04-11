@@ -13,7 +13,7 @@ public class CartController {
     private final CartService service;
 
     @PostMapping
-    public ResponseEntity<CartEntity> addProduct(@RequestBody CartRequest cartRequest){
+    public ResponseEntity<CartEntity> addProduct(@RequestBody CartRequest cartRequest) {
         return ResponseEntity.status(HttpStatus.OK).body(service.addProduct(cartRequest));
     }
 

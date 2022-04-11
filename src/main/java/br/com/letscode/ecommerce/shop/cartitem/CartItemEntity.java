@@ -7,21 +7,17 @@ import javax.persistence.*;
 import java.time.ZonedDateTime;
 
 @Data
-@Entity(name="CART_ITEM")
+@Entity(name = "CART_ITEM")
 public class CartItemEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long itemId;
 
-//    @OneToOne
-//    @JoinColumn(name="CART_ID")
-//    private Long cartId;
-
     @OneToOne
-    @JoinColumn(name="PRODUCT_ID")
+    @JoinColumn(name = "PRODUCT_ID")
     private ProductEntity product;
 
-    @Column(name="QUANTITY")
+    @Column(name = "QUANTITY")
     private Integer quantity = 0;
 
     @Column(name = "CREATION_DATE")

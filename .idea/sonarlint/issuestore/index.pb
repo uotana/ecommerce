@@ -1,11 +1,21 @@
 
-9
-	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
+~
+Nsrc/main/java/br/com/letscode/ecommerce/shop/product/ProductSpecification.java,b/2/b207a50d1894669e6b7d3a8cf1f4035b4992dd1f
+w
+Gsrc/main/java/br/com/letscode/ecommerce/shop/product/ProductFilter.java,b/d/bde0af78037e13dab1a6d3e17fde30cef352941a
+{
+Ksrc/main/java/br/com/letscode/ecommerce/shop/product/ProductRepository.java,a/1/a158359fe85ec7845cead013ef1fb37f1ec988ba
+ƒ
+Ssrc/test/java/br/com/letscode/ecommerce/integration/productTest/GetProductTest.java,f/0/f0e7064032d9376fda846ab8101688268900c852
 q
-Asrc/main/java/br/com/letscode/ecommerce/shop/user/UserEntity.java,d/c/dc50741453860d241d32853964f015b1faae2a24
-r
-Bsrc/main/java/br/com/letscode/ecommerce/shop/user/UserRequest.java,5/d/5d2455d9730e3a1a1a7685c6af019ad1a1820139
-p
-@src/main/java/br/com/letscode/ecommerce/utils/ProductStatus.java,5/7/57711bd0ac58f149d8b3123811bb1e104d41ca75
-r
-Bsrc/main/java/br/com/letscode/ecommerce/shop/user/UserService.java,f/c/fc46eb53c55003a14f8ffd8a5b09008ae94489e2
+Asrc/main/java/br/com/letscode/ecommerce/ECommerceApplication.java,f/c/fc46e35fae243c94e98fb5bb77d15e7a940ab9c5
+{
+Ksrc/main/java/br/com/letscode/ecommerce/shop/product/ProductController.java,5/e/5ea30a2158a185931da7a85d9891acd9fcf0fc93
+x
+Hsrc/main/java/br/com/letscode/ecommerce/shop/product/ProductRequest.java,d/2/d2ffe3173fe6cde481bd060be301664da8a5c853
+†
+Vsrc/test/java/br/com/letscode/ecommerce/integration/productTest/CreateProductTest.java,1/5/1575ae3f27df3d76741cec141c397f40ff443b0b
+€
+Psrc/test/java/br/com/letscode/ecommerce/integration/productTest/ProductTest.java,3/9/398c7dde501e562b6122edf4d83509c9a16bbfd0
+7
+pom.xml,4/4/442292b8a7efeabbe4cc176709b833b1792140ec

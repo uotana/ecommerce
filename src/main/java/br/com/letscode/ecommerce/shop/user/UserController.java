@@ -17,7 +17,7 @@ public class UserController {
     private final UserService service;
 
     @PostMapping("/create")
-    public ResponseEntity<Object> save(@RequestBody UserRequest request) {
+    public ResponseEntity<UserResponse> save(@RequestBody UserRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(request));
     }
 

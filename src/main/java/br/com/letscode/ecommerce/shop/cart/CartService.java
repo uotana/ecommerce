@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -90,7 +89,7 @@ public class CartService {
         return cartRepository.save(cartEntity);
     }
 
-    private void validate(CartRequest request){
+    private void validate(CartRequest request) {
         cartRepository.findById(request.getCartId())
                 .orElseThrow(() -> new CartNotFoundException("Cart with id " + request.getCartId() + " not found"));
         productRepository.findById(request.getProductId())

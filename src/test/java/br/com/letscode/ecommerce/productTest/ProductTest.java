@@ -1,4 +1,4 @@
-package br.com.letscode.ecommerce.integration.productTest;
+package br.com.letscode.ecommerce.productTest;
 
 import br.com.letscode.ecommerce.shop.manufacturer.ManufacturerEntity;
 import br.com.letscode.ecommerce.shop.manufacturer.ManufacturerRepository;
@@ -27,11 +27,7 @@ import java.time.ZonedDateTime;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Slf4j
-//@AutoConfigureMockMvc
 public class ProductTest {
-
-/*    @Autowired
-    private MockMvc mockMvc;*/
 
     @Autowired
     private ProductRepository productRepository;
@@ -90,8 +86,6 @@ public class ProductTest {
         Page<ProductEntity> result = productRepository.findAll(PageRequest.of(0, 2));
         Assert.isTrue(!result.isEmpty(), "Expected size: 2, Result:" + result.getSize());
 
-        Assertions.assertThat(result.getTotalElements()).isEqualTo(2);
-
     }
 
     @Test
@@ -118,23 +112,6 @@ public class ProductTest {
         Assert.notNull(productEntity.getBarCode(), "Bar code null");
         Assert.notNull(productEntity.getManufacturer(), "Manufacturer null");
 
-
-    }
-
-    @Test
-    void deleteProductFromRepository() {
-        ManufacturerEntity manufacturerEntity1 = new ManufacturerEntity();
-        manufacturerEntity1.setName("Manufacturer X");
-        manufacturerEntity1.setCreationDate(ZonedDateTime.now());
-        manufacturerEntity1.setUpdateDate(ZonedDateTime.now());
-        manufacturerEntity1 = manufacturerRepository.save(manufacturerEntity1);
-
-        ProductEntity productEntity1 = new ProductEntity();
-        productEntity1.setName("Product Y");
-        productEntity1.setValue(BigDecimal.TEN);
-        productEntity1.setBarCode("655396");
-        productEntity1.setManufacturer(manufacturerEntity1);
-        productRepository.save(productEntity1);
     }
 
     @Test
@@ -161,7 +138,7 @@ public class ProductTest {
         productRequest.setBarCode("12345");
         productRequest.setIdManufacturer(1L);
 
-        var productUpdated = productService.update(productEntity1.getId(),productRequest);
+        var productUpdated = productService.update(productEntity1.getId(), productRequest);
 
         log.info("After updated " + productRepository.save(productUpdated));
         Assertions.assertThat(productUpdated.getManufacturer()).isNotNull();

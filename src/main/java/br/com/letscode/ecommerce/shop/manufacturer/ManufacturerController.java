@@ -32,5 +32,4 @@ public class ManufacturerController {
         service.delete(manufacturerId);
         return ResponseEntity.ok("Successfully deleted!");
     }
-
 }

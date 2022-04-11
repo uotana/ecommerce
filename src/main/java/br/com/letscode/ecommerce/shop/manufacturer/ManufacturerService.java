@@ -1,6 +1,9 @@
 package br.com.letscode.ecommerce.shop.manufacturer;
 
+import br.com.letscode.ecommerce.shop.exception.ManufacturerConflictException;
+import br.com.letscode.ecommerce.shop.exception.ManufacturerNotFoundException;
 import br.com.letscode.ecommerce.shop.exception.ProductNotFoundException;
+import br.com.letscode.ecommerce.shop.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,10 +17,11 @@ import java.util.Optional;
 public class ManufacturerService {
 
     private final ManufacturerRepository repository;
+    private final ProductRepository productRepository;
 
     public ManufacturerEntity save(ManufacturerRequest manufacturerRequest) {
         if (repository.existsByName(manufacturerRequest.getName())) {
-            throw new RuntimeException("Conflict");
+            throw new ManufacturerConflictException("Manufacturer already exists.");
         } else {
 
             ManufacturerEntity manufacturer = new ManufacturerEntity();
@@ -27,17 +31,17 @@ public class ManufacturerService {
 
             return repository.save(manufacturer);
         }
-
     }
 
     public void delete(Long manufacturerId) {
         Optional<ManufacturerEntity> manufacturerEntityOptional = repository.findById(manufacturerId);
         ManufacturerEntity manufacturer = manufacturerEntityOptional.orElseThrow(
-                () -> new ProductNotFoundException("Not found"));
+                () -> new ManufacturerNotFoundException("Manufacturer with id " + manufacturerId + " not found."));
+
         repository.delete(manufacturer);
     }
 
-    public Page findAll(Pageable pageable) {
+    public Page<ManufacturerEntity> findAll(Pageable pageable) {
         return repository.findAll(pageable);
     }
 }

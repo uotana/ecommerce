@@ -1,7 +1,7 @@
 package br.com.letscode.ecommerce.shop.product;
 
 import br.com.letscode.ecommerce.shop.manufacturer.ManufacturerEntity;
-import br.com.letscode.ecommerce.utils.ProductStatus;
+import br.com.letscode.ecommerce.shop.product.utils.ProductStatusEnum;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.*;
@@ -23,7 +23,6 @@ import java.util.UUID;
 public class ProductEntity {
 
     @Id
-//    @Setter(AccessLevel.NONE)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
@@ -43,7 +42,7 @@ public class ProductEntity {
     private String barCode;
 
     @Column(name = "STATUS")
-    private ProductStatus status;
+    private ProductStatusEnum status;
 
     @ManyToOne
     @JoinColumn(name = "ID_MANUFACTURER")
@@ -60,28 +59,5 @@ public class ProductEntity {
 
     @Column(name = "UPDATE_DATE")
     private ZonedDateTime updateDate;
-
-   /* public ProductEntity(
-            String name,
-            String description,
-            BigDecimal value,
-            String barCode,
-            ManufacturerEntity manufacturer,
-            Integer weight,
-            String weightMeasuringUnit) {
-
-        this.name = name;
-        this.description = description;
-        this.value = value;
-        this.barCode = barCode;
-        this.weight = weight;
-        this.weightMeasuringUnit = weightMeasuringUnit;
-
-        this.manufacturer = manufacturer;
-        this.code = UUID.randomUUID();
-        this.status = ProductStatus.AVAILABLE;
-        this.creationDate = ZonedDateTime.now();
-        this.updateDate = ZonedDateTime.now();
-    }*/
 
 }

@@ -5,7 +5,6 @@ import br.com.letscode.ecommerce.shop.cart.CartRepository;
 import br.com.letscode.ecommerce.shop.exception.ProductNotFoundException;
 import br.com.letscode.ecommerce.shop.exception.UserNotFoundException;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
@@ -18,20 +17,21 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-//@RequiredArgsConstructor
 @AllArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
     private final CartRepository cartRepository;
 
-    public Object save(UserRequest request) {
-        Optional<UserEntity> user = userRepository.findByUsername(request.getUsername());
-        if(user.isPresent()){
-            throw new ProductNotFoundException( "username "+ user.get().getUsername()+ " already exists, try another one.");
+    public UserResponse save(UserRequest userRequest) {
+        Optional<UserEntity> user = userRepository.findByUsername(userRequest.getUsername());
+        if (user.isPresent()) {
+            throw new ProductNotFoundException("username " + user.get().getUsername() + " already exists, try another one.");
         }
-        log.info("Saving request " + request);
-        return userRepository.save(toEntity(request));
+        log.info("Saving request " + userRequest);
+
+        return fromEntityToUserResponse(userRepository.save(toEntity(userRequest)));
+
     }
 
     public UserEntity update(Long id, UserRequest request) {
@@ -46,6 +46,12 @@ public class UserService {
         user.setBirthDate(request.getBirthDate());
         user.setUpdateDate(ZonedDateTime.now());
         return userRepository.save(user);
+    }
+
+    private UserResponse fromEntityToUserResponse(UserEntity userEntity) {
+        UserResponse userResponse = new UserResponse();
+        BeanUtils.copyProperties(userEntity, userResponse);
+        return userResponse;
     }
 
     private UserEntity toEntity(UserRequest request) {

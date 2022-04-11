@@ -1,6 +1,5 @@
 package br.com.letscode.ecommerce.shop.user;
 
-import br.com.letscode.ecommerce.shop.product.ProductEntity;
 import org.springframework.data.jpa.domain.Specification;
 
 public class UserSpecification {

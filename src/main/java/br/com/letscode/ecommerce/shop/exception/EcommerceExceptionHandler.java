@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class EcommerceExceptionHandler {
 
     @ExceptionHandler
-    public ResponseEntity<DefaultError> userNotFound(UserNotFoundException exception){
+    public ResponseEntity<DefaultError> userNotFound(UserNotFoundException exception) {
         DefaultError error = new DefaultError(HttpStatus.BAD_REQUEST.value(),
                 exception.getMessage(),
                 System.currentTimeMillis());
@@ -17,15 +17,7 @@ public class EcommerceExceptionHandler {
     }
 
     @ExceptionHandler
-    public ResponseEntity<DefaultError> cartNotFound(CartNotFoundException exception){
-        DefaultError error = new DefaultError(HttpStatus.BAD_REQUEST.value(),
-                                exception.getMessage(),
-                                System.currentTimeMillis());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-    }
-
-    @ExceptionHandler
-    public ResponseEntity<DefaultError> productNotFound(ProductNotFoundException exception){
+    public ResponseEntity<DefaultError> cartNotFound(CartNotFoundException exception) {
         DefaultError error = new DefaultError(HttpStatus.BAD_REQUEST.value(),
                 exception.getMessage(),
                 System.currentTimeMillis());
@@ -33,7 +25,23 @@ public class EcommerceExceptionHandler {
     }
 
     @ExceptionHandler
-    public ResponseEntity<DefaultError> manufacturerNotFound(ManufacturerNotFoundException exception){
+    public ResponseEntity<DefaultError> productNotFound(ProductNotFoundException exception) {
+        DefaultError error = new DefaultError(HttpStatus.BAD_REQUEST.value(),
+                exception.getMessage(),
+                System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<DefaultError> manufacturerNotFound(ManufacturerNotFoundException exception) {
+        DefaultError error = new DefaultError(HttpStatus.BAD_REQUEST.value(),
+                exception.getMessage(),
+                System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<DefaultError> manufacturerConflict(ManufacturerConflictException exception) {
         DefaultError error = new DefaultError(HttpStatus.BAD_REQUEST.value(),
                 exception.getMessage(),
                 System.currentTimeMillis());

@@ -2,7 +2,6 @@ package br.com.letscode.ecommerce.shop.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter

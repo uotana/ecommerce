@@ -4,7 +4,7 @@ import br.com.letscode.ecommerce.shop.exception.ManufacturerNotFoundException;
 import br.com.letscode.ecommerce.shop.exception.ProductNotFoundException;
 import br.com.letscode.ecommerce.shop.manufacturer.ManufacturerEntity;
 import br.com.letscode.ecommerce.shop.manufacturer.ManufacturerRepository;
-import br.com.letscode.ecommerce.utils.ProductStatus;
+import br.com.letscode.ecommerce.shop.product.utils.ProductStatusEnum;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
@@ -71,7 +71,7 @@ public class ProductService {
         BeanUtils.copyProperties(product, entity);
 
         entity.setCode(UUID.randomUUID());
-        entity.setStatus(ProductStatus.AVAILABLE);
+        entity.setStatus(ProductStatusEnum.AVAILABLE);
         entity.setCreationDate(ZonedDateTime.now());
         entity.setUpdateDate(ZonedDateTime.now());
         entity.setManufacturer(manufacturer);

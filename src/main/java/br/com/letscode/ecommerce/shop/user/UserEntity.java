@@ -39,11 +39,11 @@ public class UserEntity implements UserDetails {
     @Column(name = "NAME")
     private String name;
 
-    @Column(name="BIRTH_DATE")
+    @Column(name = "BIRTH_DATE")
     private LocalDate birthDate;
 
     @OneToOne
-    @JoinColumn(name="CART")
+    @JoinColumn(name = "CART")
     private CartEntity cart;
 
     @Column(name = "CREATION_DATE")
